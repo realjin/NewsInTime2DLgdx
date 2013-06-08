@@ -120,6 +120,8 @@ public class RetrieverServiceThread implements Runnable {
 
 				News n = new News(text, pubDate);
 
+				Log.e("===NRS===", "text=" + text);
+
 				newsList.add(n);
 			}
 		}

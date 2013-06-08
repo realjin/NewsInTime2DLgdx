@@ -1,5 +1,6 @@
 package info.realjin.newsintime2d;
 
+import info.realjin.newsintime2d.domain.News;
 import info.realjin.newsintime2d.domain.NewsListWrapper;
 import android.util.Log;
 
@@ -22,16 +23,18 @@ public class FirstGame implements ApplicationListener {
 	NewsInTime2DAPP app;
 	NewsListWrapper nlWrapper;
 
-	int curNewsId;
+	// int curNewsId;
+	News curNews;
 	float x, y;
-	String str;
+	String curStr;
 
 	public FirstGame(NewsInTime2DAPP a) {
 		this.app = a;
 		nlWrapper = app.getNlWrapper();
 
-		curNewsId = 1;
-		str = nlWrapper.getNl().get(curNewsId - 1).getText();
+		// curNewsId = 1;
+		curNews = nlWrapper.getNl().get(0);
+		curStr = curNews.getText();
 		x = 10;
 		y = 50;
 	}
@@ -77,6 +80,10 @@ public class FirstGame implements ApplicationListener {
 
 	@Override
 	public void render() {
+		
+		if(1+2==3){
+			return;
+		}
 
 		// Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT); // ÇåÆÁ
 		gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -95,26 +102,28 @@ public class FirstGame implements ApplicationListener {
 
 		x -= 1.5f;
 
-		TextBounds tb = font.getBounds(str);
+		TextBounds tb = font.getBounds(curStr);
 		float maxExceed = tb.width - app.getScrHeight();
 		if (0 - x >= maxExceed) {// mmm: margin
-			Object[] fnsResults = nlWrapper.fetchNextStr(curNewsId, font);
+			Object[] fnsResults = nlWrapper.fetchNextStr(curNews, font);
 			// mmm: what if last not long enough!!!!
-//			String lastSingleStr = nlWrapper.getNl().get(curNewsId - 1)
-//					.getText();
-//			str = lastSingleStr + (String) fnsResults[0];
-			str = (String) fnsResults[0];
-			curNewsId = (Integer) fnsResults[1];
-//			 x = app.getScrHeight();
-//			x = app.getScrHeight() - font.getBounds(lastSingleStr).width;
-			x = app.getScrHeight() - font.getBounds((String) fnsResults[2]).width;
+			// String lastSingleStr = nlWrapper.getNl().get(curNewsId - 1)
+			// .getText();
+			// str = lastSingleStr + (String) fnsResults[0];
+			curStr = (String) fnsResults[0];
+			// mmm: not impl!!!
+			// curNews = (Integer) fnsResults[1];
+			// x = app.getScrHeight();
+			// x = app.getScrHeight() - font.getBounds(lastSingleStr).width;
+			x = app.getScrHeight()
+					- font.getBounds((String) fnsResults[2]).width;
 
-			Log.i("===FNS===", "x=" + x + ",str=" + str);
+			Log.i("===FNS===", "x=" + x + ",str=" + curStr);
 		}
 		// Log.i("www", "exc="+maxExceed+", cur="+x);
 
 		spriteBatch.begin();
-		font.draw(spriteBatch, str, x, y);
+		font.draw(spriteBatch, curStr, x, y);
 		spriteBatch.end();
 	}
 

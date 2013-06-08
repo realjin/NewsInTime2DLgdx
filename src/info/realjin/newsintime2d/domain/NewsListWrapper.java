@@ -25,20 +25,19 @@ public class NewsListWrapper {
 
 		// for test
 		nl = new ArrayList<News>();
-//		News n1 = new News(
-//				"Power Word: Fortitude had its mana cost reduced to 1%, down from 4.4%.",
-//				1);
-//		News n2 = new News(
-//				"Mass Dispel no longer dispels magic effects that are normally undispellable. Cast time has been decreased to 0.5 seconds, down from 1.5 seconds for Discipline and Holy Priests.",
-//				2);
-//		News n3 = new News(
-//				"Void Shift had its cooldown decreased to 5 minutes", 3);
+		// News n1 = new News(
+		// "Power Word: Fortitude had its mana cost reduced to 1%, down from 4.4%.",
+		// 1);
+		// News n2 = new News(
+		// "Mass Dispel no longer dispels magic effects that are normally undispellable. Cast time has been decreased to 0.5 seconds, down from 1.5 seconds for Discipline and Holy Priests.",
+		// 2);
+		// News n3 = new News(
+		// "Void Shift had its cooldown decreased to 5 minutes", 3);
 		News n1 = new News(
 				"Power Word: Fortitude had its mana cost reduced to 1%, down from 4.4%.");
 		News n2 = new News(
 				"Mass Dispel no longer dispels magic effects that are normally undispellable. Cast time has been decreased to 0.5 seconds, down from 1.5 seconds for Discipline and Holy Priests.");
-		News n3 = new News(
-				"Void Shift had its cooldown decreased to 5 minutes");
+		News n3 = new News("Void Shift had its cooldown decreased to 5 minutes");
 		nl.add(n1);
 		nl.add(n2);
 		nl.add(n3);
@@ -53,11 +52,12 @@ public class NewsListWrapper {
 	 * @param f
 	 * @return
 	 */
-	public Object[] fetchNextStr(int curId, BitmapFont f) {
+	// TODO: mmm not completed!
+	public Object[] fetchNextStr(News curNews, BitmapFont f) {
 		String s = "";
-		String formerS = getFormerStr(curId);
+		String formerS = getFormerStr(curNews);
 		s += formerS;
-		List<News> nextNewsList = fetchNext(curId);
+		List<News> nextNewsList = fetchNext(curNews);
 		for (News n : nextNewsList) {
 			s += n.getText();
 		}
@@ -70,18 +70,19 @@ public class NewsListWrapper {
 	}
 
 	/*
+	 * mmm: temp. only for test
 	 * mmm: make sure longer than screen width!
 	 */
-	public String getFormerStr(int curId) {
+	public String getFormerStr(News curNews) {
 		// mmm: test. make sure longer than screen width!
 		// mmm: just for test (news count = 1 hardcoded)
-		Log.i("getFormerStr","curid="+curId);
-		News n = nl.get(curId-1);
-		return n.getText();
+		Log.i("getFormerStr", "curid=" + curNews.getId());
+//		News n = nl.get(curId - 1);
+		return curNews.getText();
 	}
 
 	// public News fetchNext(long curid) {
-	public List<News> fetchNext(int curid) {
+	public List<News> fetchNext(News curNews) {
 		int nextid;
 		List<News> nextNewsList = new ArrayList<News>();
 
@@ -91,9 +92,9 @@ public class NewsListWrapper {
 
 		} else {
 			// mmm: just for test (news count = 1 hardcoded)
-			nextid = curid % (nl.size());
-			News nextNews = nl.get(nextid);
-			nextNewsList.add(nextNews);
+//			nextid = curid % (nl.size());
+//			News nextNews = nl.get(nextid);
+//			nextNewsList.add(nextNews);
 
 			return nextNewsList;
 		}
@@ -125,11 +126,11 @@ public class NewsListWrapper {
 
 	public void clearAll() {
 		// TODO mmmmmm not implemented!!!
-		
+
 	}
 
 	public void addNewsList(List<News> newsList) {
 		// TODO mmmmmm not implemented!!!
-		
+
 	}
 }

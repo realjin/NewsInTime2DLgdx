@@ -30,8 +30,11 @@ public class FirstGame implements ApplicationListener {
 
 	public FirstGame(NewsInTime2DAPP a) {
 		this.app = a;
+		// TODO: mmmmmm:may be bug????? nlwrapper may not created yet?
 		nlWrapper = app.getNlWrapper();
 
+		//TODO: mmm: what if no news yet???????
+		
 		// curNewsId = 1;
 		curNews = nlWrapper.getNl().get(0);
 		curStr = curNews.getText();
@@ -80,8 +83,8 @@ public class FirstGame implements ApplicationListener {
 
 	@Override
 	public void render() {
-		
-		if(1+2==3){
+
+		if (1 + 2 == 3) {
 			return;
 		}
 

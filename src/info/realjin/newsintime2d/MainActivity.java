@@ -19,6 +19,13 @@ public class MainActivity extends AndroidApplication {
 
 		app.setMainActivity(this);
 
+		try {
+			// TODO: mmm: !!!!! temp
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
 		// setContentView(R.layout.activity_main);
 		initialize(new FirstGame(app), false);
 	}

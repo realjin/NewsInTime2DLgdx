@@ -16,6 +16,8 @@ import android.util.Log;
 public class RetrieverService {
 	private RetrieverServiceThread thread;
 	private boolean threadRunning;
+	private NewsListWrapper nl;
+	private boolean init;
 
 	public void sendMsg(Message msg) {
 		handler.sendMessage(msg);
@@ -56,27 +58,37 @@ public class RetrieverService {
 	 * @param url
 	 *            initial url
 	 */
-	public RetrieverService(NewsListWrapper nl, Collection coll) {
-		thread = new RetrieverServiceThread(this, nl, coll);
+	// public RetrieverService(NewsListWrapper nl, Collection coll) {
+	// thread = new RetrieverServiceThread(this, nl, coll);
+	// init = true;
+	// }
+	public RetrieverService() {
+		init = true;
+		nl = new NewsListWrapper();
 	}
 
-	public void start() {
+	private void start(Collection coll) {
+		thread = new RetrieverServiceThread(this, nl, coll);
 		threadRunning = true;
 		thread.setEnabled(true);
+		init = false;
 		new Thread(thread).start();
 	}
 
-	public void restartByNewColItem(Collection coll) {
-		//0. stop old thread
-		stop();
-		
-		// 1.clear list
-		thread.getNl().clearAll();
+	// public void restartByNewColItem(Collection coll) {
+	public void changeCollection(Collection coll) {
+		if (init == false) {
+			// 0. stop old thread
+			stop();
 
-		// 2. start retrieving
-		thread.setColl(coll);
-		
-		start();
+			// 1.clear list
+			thread.getNl().clearAll();
+
+			// 2. start retrieving
+			thread.setColl(coll);
+		}
+
+		start(coll);
 	}
 
 	public void stop() {
@@ -111,7 +123,7 @@ public class RetrieverService {
 			s = s.substring(0, nGMT);
 		}
 
-//		System.out.println("===1===");
+		// System.out.println("===1===");
 
 		// trim
 		s = s.trim();
@@ -128,13 +140,13 @@ public class RetrieverService {
 			return null;
 		}
 
-//		System.out.println("===2===");
+		// System.out.println("===2===");
 		// get date part as s1
 		String s1;
 		s1 = s.substring(0, n1 - 2);
 		s1 = s1.trim();
 		String[] tokens = s1.split(" ");
-//		System.out.println("===3===token length=" + tokens.length);
+		// System.out.println("===3===token length=" + tokens.length);
 		if (tokens.length == 3) {
 			if (tokens[0].length() == 1) {
 				tokens[0] = '0' + tokens[0];
@@ -148,10 +160,10 @@ public class RetrieverService {
 			return null;
 		}
 		s1 = tokens[2] + ' ' + tokens[1] + ' ' + tokens[0];
-//		System.out.println("===4===fmt=" + format);
+		// System.out.println("===4===fmt=" + format);
 
 		String modified = s1 + ' ' + s2;
-//		System.out.println("===5=== modified=" + modified);
+		// System.out.println("===5=== modified=" + modified);
 		SimpleDateFormat _df = new SimpleDateFormat(format, Locale.US);
 		// System.out.println("sample--->" + _df.format(new Date()));
 		Date d = null;
@@ -165,9 +177,17 @@ public class RetrieverService {
 		return d;
 	}
 
+	public NewsListWrapper getNl() {
+		return nl;
+	}
+
+	public void setNl(NewsListWrapper nl) {
+		this.nl = nl;
+	}
+
 	public static void main(String[] args) {
 		System.out.println("start");
-		RetrieverService nrs = new RetrieverService(null, null);
+		RetrieverService nrs = new RetrieverService();
 		// nrs.getFeed("http://cn.wsj.com.feedsportal.com/c/33121/f/538760/index.rss");
 		// nrs.getFeed("http://rss.sina.com.cn/news/marquee/ddt.xml");
 		// try {

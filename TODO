@@ -1,3 +1,8 @@
-test retriever
+* test retriever
 add default sorter
 ui dropdown
+
+
+//TODO: mmm: what if no news yet???????
+
+NewsListWrapper addNewsList

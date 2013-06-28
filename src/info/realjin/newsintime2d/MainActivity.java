@@ -1,6 +1,7 @@
 package info.realjin.newsintime2d;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 
@@ -27,6 +28,7 @@ public class MainActivity extends AndroidApplication {
 		}
 
 		// setContentView(R.layout.activity_main);
+		Log.e("===MainActivity===onCreate===", "nlWrapper.getnl size=" + app.getNlWrapper().getNl().size());
 		initialize(new FirstGame(app), false);
 	}
 

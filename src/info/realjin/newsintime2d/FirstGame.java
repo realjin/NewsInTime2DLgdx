@@ -32,11 +32,15 @@ public class FirstGame implements ApplicationListener {
 		this.app = a;
 		// TODO: mmmmmm:may be bug????? nlwrapper may not created yet?
 		nlWrapper = app.getNlWrapper();
+		Log.e("===FG===ctor===", "nlWrapper=" + nlWrapper);
+		Log.e("===FG===ctor===", "nlWrapper.getnl=" + nlWrapper.getNl());
+		Log.e("===FG===ctor===", "nlWrapper.getnl size=" + nlWrapper.getNl().size());
 
-		//TODO: mmm: what if no news yet???????
-		
+		// TODO: mmm: what if no news yet???????
+
 		// curNewsId = 1;
 		curNews = nlWrapper.getNl().get(0);
+		Log.e("===FG===ctor===", "curNews 0 text=" + curNews.getText());
 		curStr = curNews.getText();
 		x = 10;
 		y = 50;
@@ -84,7 +88,7 @@ public class FirstGame implements ApplicationListener {
 	@Override
 	public void render() {
 
-		if (1 + 2 == 3) {
+		if (1 + 2 != 3) {
 			return;
 		}
 
@@ -115,7 +119,7 @@ public class FirstGame implements ApplicationListener {
 			// str = lastSingleStr + (String) fnsResults[0];
 			curStr = (String) fnsResults[0];
 			// mmm: not impl!!!
-			// curNews = (Integer) fnsResults[1];
+			curNews = (News) fnsResults[1];
 			// x = app.getScrHeight();
 			// x = app.getScrHeight() - font.getBounds(lastSingleStr).width;
 			x = app.getScrHeight()
